@@ -1,0 +1,64 @@
+{
+  "name": "posvyat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env SERVE=true webpack serve",
+    "build": "webpack serve --mode development",
+    "build-prod": "webpack serve --mode=production",
+    "clean": "rd /s /q dist"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "JavaScript",
+    "Webpack",
+    "Node"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
+    "file-loader": "^6.2.0",
+    "font-awesome": "^4.7.0",
+    "html-loader": "^3.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.8.1",
+    "postcss": "^8.4.5",
+    "postcss-loader": "^6.2.1",
+    "postcss-preset-env": "^7.0.2",
+    "react-query": "^3.39.3",
+    "react-refresh": "^0.11.0",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.45.0",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.4",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.15.2"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "axios": "^1.6.7",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^5.6.0",
+    "jquery": "^3.7.1",
+    "path": "^0.12.7",
+    "rc-tween-one": "^3.0.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.22.3",
+    "react-spinners": "^0.13.8",
+    "slick-carousel": "^1.8.1"
+  }
+}

@@ -1,0 +1,339 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.registration-form {
+  position: relative;
+  max-width: 1217px; 
+  padding: 20px;
+  &-text {
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+}
+
+h1 {
+  font-family: Mo;
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.head-title{
+  font-family: Phorssa;
+  text-align: center;
+  margin: 20px;
+  font-size: 90px;
+}
+.registration-form-text {
+  font-size: 20px;
+  font-family: Monocraft;
+  color: #FFB800;
+  text-align: center;
+}
+.form-grid {
+  display: grid; 
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+  &-item {
+    display: flex;
+    gap: 10px;
+    &-1 {
+      width: 65%;
+    }
+    &-2 {
+      width: 32%;
+    }
+  }
+  &-two {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+}
+
+.form-grid > div {
+  position: relative;
+}
+
+.form-img {
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.form-img > div {
+  position: relative;
+}
+
+.form-grid-two > div {
+  position: relative;
+}
+
+label {
+  font-family: Monocraft;
+  display: block;
+  margin-bottom: 5px; 
+  font-size: 20px;
+  color: #FFB800;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+textarea {
+  font-family: Monocraft;
+  width: 100%;
+  padding: 30px 24px;
+  border: 3px solid white;
+  height: 36px; 
+  background-color: transparent;
+  color: white; 
+  font-size: 24px;
+  cursor: url('../../assets/icons/Pointer.svg'), auto;
+}
+
+textarea {
+  height: 160px; 
+  resize: none; 
+}
+
+input:focus,
+textarea:focus {
+  outline: none; 
+  border-color: #FFB800; 
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: $grey; 
+}
+
+input:not(:placeholder-shown),
+textarea:not(:placeholder-shown) {
+  border-color: $white; 
+}
+
+input[type="date"]:invalid {
+  border-color: $grey;
+}
+
+.submit-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; 
+}
+
+.button, .submit {
+  font-family: Monocraft;
+  font-size: 20px;
+  padding: 6px 16px;
+  min-width: 120px;
+  background-color: #c0c0c0;
+  color: black;
+  border: 2px solid #ffffff;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  box-shadow: inset -1px -1px 0 #00000033, inset 1px 1px 0 #ffffffaa;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.1s ease-in-out;
+}
+
+.button, .submit:hover {
+  background-color: #d4d0c8; 
+}
+
+.button, .submit:active {
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  box-shadow: inset 1px 1px 0 #00000055, inset -1px -1px 0 #ffffff;
+  transform: translateY(1px);
+}
+
+.button, .submit:disabled {
+  color: #808080;
+  background-color: #c0c0c0;
+  border-color: #a0a0a0;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.error {
+  color: $orange;
+  font-size: 12px; 
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
+.error-input {
+  border: 2px solid $orange;
+}
+
+.error-message {
+  font-family: Monocraft;
+  color: $orange;
+  font-size: 15px;
+  position: absolute;
+  top: 110%;
+  left: 5%;
+} 
+
+
+.add-person {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+  background-color: transparent;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+.add {
+  font-family: Monocraft;
+  color: #FFB800;
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+}
+
+.remove-person {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+  background-color: transparent;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 60%;
+  right: -45px; 
+  transform: translateY(-50%); 
+}
+
+@media (max-width: 768px) {
+  h1{
+    font-size: 24px;
+  }
+  .head-title{
+    font-size: 24px;
+  }
+  label {
+    font-size: 16px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  textarea {
+    font-size: 16px;
+  }
+  textarea {
+    height: 145px; 
+    border-radius: 30px;
+    resize: none; 
+  }
+  .registration-form {
+    padding: 20px 40px;
+    &-text {
+      font-size: 14px;
+    }
+  }
+
+  .registration {
+    margin-top: 40px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap:15px;
+    margin-bottom: 15px;
+    &-two {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 15px;
+    }
+    &-item {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 15px;
+      &-1 {
+        width: 100%;
+      }
+      &-2 {
+        width: 100%;
+      }
+    }
+  }
+
+  .form-img {
+    display: grid; 
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 40px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items:self-start;
+  }
+
+  button {
+    font-size: 16px; 
+    height: 34px;
+  }
+  .error {
+    bottom: -12px;
+  }
+  .priority-box {
+    width: 100%;
+  }
+  .remove-person {
+    border: none;
+    margin-top: -38px;
+    margin-left: 85%;
+  }
+}
+
+
+@media (max-width: 1350px) and (min-width: 1200px) {
+  .registration-form {
+    padding: 0px;
+  }
+  .form-img {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+@media (max-width: 1200px) and (min-width: 769px){
+
+  .error-message {
+    &-2 {
+      color: $orange;
+      font-size: 10px;
+      position: absolute;
+      align-items: center;
+      top: 40px;
+      left: 35%;
+    }
+  } 
+  .form-img {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

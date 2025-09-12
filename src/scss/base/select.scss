@@ -1,0 +1,54 @@
+.custom-select {
+    position: relative;
+    width: 100%;
+  }
+  
+  .select-header {
+    font-family: Monocraft;
+    width: 100%;
+    padding: 16px 24px;
+    border: 3px solid white;
+    background-color: transparent;
+    color: white; 
+    font-size: 24px;
+    cursor: url('../../assets/icons/Pointer.svg'), auto;
+  }
+  
+  .select-options {
+    font-family: Monocraft;
+    font-size: 20px;
+    list-style-type: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #FFB800;
+    z-index: 1000;
+    margin-top: 4px;
+    cursor: url('../../assets/icons/Pointer.svg'), auto;
+  }
+  
+  .select-option {
+    font-family: Monocraft;
+    margin: 5px;
+    padding: 12px 24px;
+    color: white;
+    cursor: url('../../assets/icons/Pointer.svg'), auto;
+  }
+  
+  .select-option:hover,
+  .select-option.hovered {
+    margin: 5px;
+    background-color: white;  
+    color: black;
+    cursor: url('../../assets/icons/Normal_Select.cur'), auto;
+  }
+
+  @media (max-width: 767px) {
+    .select-options {
+        font-size: 16px;
+    }
+    .select-header {
+        font-size: 16px;
+    }
+  }

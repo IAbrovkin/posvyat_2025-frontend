@@ -1,0 +1,99 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+
+  &-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: yellow;
+  }
+
+  &-logo {
+    position: absolute;
+    z-index: 1000;
+    height: 60vh;
+    left: -30px;
+    top: -60px;
+  }
+
+  &-nav {
+    display: flex;
+    position: absolute ;
+    right: 7vh;
+   }
+
+  .header-btn {
+    margin-left: -2vh;  
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: fit-content;
+    color: white;
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+    .header-btn-img {
+      display: block;
+      width: 80%;
+      height: auto;
+    }
+
+    .header-btn-text {
+      position: absolute;
+      font-size: 24px;
+      text-transform: lowercase;
+      color: white;
+      font-family: Monocraft, sans-serif;
+      pointer-events: none;
+    }
+  }
+}
+
+.header-mobile-toggle {
+  display: none;
+  width: 30px;
+  height: 30px;
+  background-image: url('../../assets/icons/Lines.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .header-nav {
+    display: none;
+  }
+  .header-mobile-toggle {
+    display: block;
+  }
+  .header-mobile {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 60%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 20px 0 0 20px;
+
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin: 15px 0;
+        a {
+          color: white;
+          font-size: 20px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

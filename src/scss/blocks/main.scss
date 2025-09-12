@@ -1,0 +1,434 @@
+
+/* ==================== Кнопки ==================== */
+.btnn {
+  margin-top: 5%;
+  font-family: Monocraft, sans-serif;
+  font-size: clamp(16px, 2vw, 32px);
+  padding: 0.5em 2em;
+  min-width: clamp(180px, 25vw, 300px);
+  background-color: #c0c0c0;
+  color: black;
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  box-shadow: inset -1px -1px 0 #00000033, inset 1px 1px 0 #ffffffaa;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  z-index: 1000;
+
+  &:hover {
+    background-color: #d4d0c8;
+  }
+  &:active {
+    border-top-color: #808080;
+    border-left-color: #808080;
+    border-right-color: #ffffff;
+    border-bottom-color: #ffffff;
+    box-shadow: inset 1px 1px 0 #00000055, inset -1px -1px 0 #ffffff;
+    transform: translateY(1px);
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+/* ==================== Hero ==================== */
+.grey-rectangle {
+  width: 100%;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    padding: 2%;
+    font-size: clamp(28px, 6vw, 82px);
+    font-family: Paper_Cuts_2, sans-serif;
+    color: #fff;
+    -webkit-text-stroke: 0.3rem black;
+    
+  }
+
+  .PosvyatImage {
+    width: 100%;
+    max-width: 1500px;
+    height: auto;
+    margin: -3%;
+  }
+}
+
+/* ==================== Info ==================== */
+.info {
+  text-align: center;
+  margin-top: 10%;
+  width: 100%;
+  position: relative;
+  height: fit-content;
+
+  .infoTitle {
+    font-size: clamp(20px, 5vw, 70px);
+    font-family: Phorssa, sans-serif;
+    background-color: #6600da;
+    color: white;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .strip-img {
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%);
+    z-index: 0; 
+  }
+
+  .imgcontainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2vw;
+    justify-items: center;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+.popup-stack-container {
+  display: grid;
+  place-items: center;
+  min-height: 500px; 
+}
+
+/* Base styles shared by the real popup and the fake ones in the back */
+.popup, .popup-stack-item {
+  width: clamp(520px, 70vw, 1000px);
+  /* This makes all items in the grid occupy the same space */
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+/* The decorative items for the stack effect */
+.popup-stack-item {
+  background-image: url('../../assets/images/WEB BROWSER POPUP.svg'); /* Adjust path if needed */
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+/* The main, interactive popup */
+.popup {
+  position: relative;
+  font-family: "Phorssa", sans-serif;
+}
+
+.popup-bg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.popup-content {
+  position: absolute;
+  top: 20%; 
+  left: 5%;
+  width: 90%;
+  height: 75%; 
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center; 
+  color: #fff;
+  font-size: clamp(12px, 1.5vw, 18px);
+  line-height: 1.4;
+}
+
+.popup-image {
+  flex-shrink: 0; 
+  width: 45%;
+  height: auto;
+  max-height: 90%; 
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.popup-text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+}
+
+.popup-text-content h3 {
+  font-size: clamp(30px, 2.5vw, 42px);
+  margin: 0 0 1rem 0;
+  font-weight: bold;
+  color: #fff;
+  font-family: Paper_Cuts_2, sans-serif;
+}
+
+.popup-text-content p {
+  margin: 0.3rem 0;
+  font-family: Monocraft, sans-serif;
+}
+
+.close-btn {
+  position: absolute;
+  top: -22%;
+  left: 101%;
+  width: 25px;
+  height: 24px;
+  cursor: pointer;
+  background: #c0c0c0;
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  box-shadow: inset -1px -1px 0 #00000033, inset 1px 1px 0 #ffffffaa;
+  color: black;
+  font-family: Monocraft, sans-serif;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.close-btn:active {
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+/* ==================== Logos scroll ==================== */
+.logos-scroll {
+  width: 100%;
+  padding: 24px 0;
+  background: transparent;
+  overflow: hidden; /* скрываем ползунок */
+
+
+  .logos-inner {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 0 16px;
+    will-change: transform; /* для плавности */
+    transition: transform 0.1s linear;
+  }
+
+
+  .brand-img {
+    height: clamp(30px, 6vh, 70px);
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+}
+/* ==================== Theme Info Section ==================== */
+.theme-info-section {
+  text-align: center;
+  margin-top: 5%;
+}
+
+.theme-title, .theme-footer-title {
+  font-family: 'Phorssa', sans-serif; /* Assuming this font is available */
+  font-size: clamp(42px, 6vw, 90px);
+  color: #fff;
+  margin-bottom: 3rem;
+}
+
+.theme-cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+  margin-bottom: 4rem;
+}
+
+.theme-card {
+  background: transparent;
+  width: clamp(280px, 25vw, 350px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.theme-card-img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.theme-card-title {
+  font-family: 'Paper_Cuts_2', sans-serif;
+  font-size: clamp(28px, 3vw, 52px);
+  color: #fff;
+  margin-bottom: 0.5rem;
+  -webkit-text-stroke: 0.05rem black;
+}
+
+.theme-card-text {
+  font-family: 'Monocraft', sans-serif; /* Using the same font as other UI elements */
+  font-size: clamp(14px, 1.5vw, 16px);
+  color: #fff;
+  line-height: 1.5;
+  padding: 0 1rem;
+}
+
+
+/* ==================== Camera + Discs ==================== */
+.camera-block {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0 10vh;
+
+  .camera-frame {
+    position: relative;
+
+    .camera-frame-img {
+      width: 1000px;
+      height: auto;
+    }
+
+    .camera-photo-wrapper {
+      position: absolute;
+      bottom: 10%;
+      right: 25%;
+      width: 70%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      .camera-photo {
+        width: 90%;
+        object-fit: cover;
+        transition: transform 0.25s;
+      }
+    }
+
+    .camera-arrow {
+      position: absolute;
+      top: 73%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #5B4551;
+      font-size: clamp(16px, 2vw, 32px);
+      cursor: pointer;
+
+      &.left {
+        left: 77%;
+      }
+      &.right {
+        right: 1%;
+      }
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
+
+/* ==================== Date & Location Section ==================== */
+/* ==================== Date & Location Section ==================== */
+.date-location-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 1000px;
+}
+
+.date-location-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  z-index: 0;
+}
+
+.date-location-text {
+  font-family: 'Paper_Cuts_2', sans-serif;
+  font-size: clamp(32px, 5vw, 64px);
+  color: #fff;
+  line-height: 1.1;
+}
+
+/* --- REVISED STYLES FOR CD HALVES --- */
+.cd-half {
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+  height: 1000px;
+  width: auto;
+  z-index: 2;
+}
+
+/* ==================== Ticket ==================== */
+.info-ticket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+  margin-bottom: 10rem;
+
+  img {
+    width: 100%;
+    max-width: 1550px;
+    height: auto;
+  }
+
+  .btnn {
+    margin-top: -15rem;
+    margin-right: 5rem; // кнопка поверх билета
+  }
+}
+
+/* ==================== Footer ==================== */
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 18px;
+  width: 90%;
+  max-width: 1200px;
+
+  .links img {
+    width: 50px;
+    margin-left: 10px;
+  }
+
+  .up img {
+    width: 50px;
+    cursor: pointer;
+  }
+}
+
+/* ==================== Media ==================== */
+@media (max-width: 768px) {
+  .grey-rectangle {
+    padding: 10% 2%;
+  }
+
+  .info .imgcontainer img {
+    max-width: 40vw;
+  }
+
+  .info-ticket .btnn {
+    margin-top: -2rem;
+  }
+}

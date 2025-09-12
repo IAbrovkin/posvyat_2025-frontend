@@ -1,0 +1,124 @@
+@font-face {
+  font-family: "Phorssa";
+  src: url('../fonts/Phorssa.ttf');
+  font-display: swap;
+}
+@font-face {
+  font-family: "Monocraft";
+  src: url('../fonts/Monocraft.otf');
+  font-display: swap;
+}
+@font-face {
+  font-family: "Paper_Cuts_2";
+  src: url('../fonts/Paper_Cuts_2.ttf');
+  font-display: swap;
+}
+@import "./base/variables"; 
+
+*{
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  color: white;
+  cursor: url('../assets/icons/Normal_Select.cur'), auto;
+} 
+
+body {
+  background-image: url('../assets/images/background.png');
+  background-repeat: repeat; 
+  background-size:auto;
+  margin: 0;
+  padding: 0;
+  display: block;  
+  height: auto; 
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10vh;
+}
+.main-background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1500px;
+  background: linear-gradient(
+    to bottom, 
+    #E82168, #FFE203, #0043E9, #111621
+  );
+  z-index: 0;
+  margin: 0 auto; 
+}
+
+.registration-background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1500px;
+  background: linear-gradient(
+    to bottom, 
+    #764D68,#00111E
+  );
+  z-index: 1;
+  margin: 0 auto; 
+} 
+.place-background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1500px;
+  background: linear-gradient(
+    to bottom, 
+    #F85D8B, #8800FF
+  );
+  z-index: 0;
+  margin: 0 auto;
+}
+.transfer-background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1500px;
+  background: linear-gradient(
+    to bottom, 
+    #BA4E3B, #6C1B30
+  );
+  z-index: 0;
+  margin: 0 auto;
+}
+
+.tickets-background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1500px;
+  background: linear-gradient(
+    to bottom, 
+    #007046, #00392A
+  );
+  z-index: 0;
+  margin: 0 auto;
+}
+.main {
+  flex: 1; 
+  position: relative;
+  z-index: 1; 
+
+}
+
+
+@import "./blocks/form";
+@import "./blocks/header";
+@import "./base/select";
+@import "./blocks/main";
