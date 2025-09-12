@@ -175,7 +175,7 @@ const RegistrationForm = () => {
         const data = await response.json();
         if (response.ok) {
           console.log('Response:', data);
-          navigate('/transfer');
+          navigate('/tickets');
         } else {
           console.error('Ошибка:', data);
           if (data.phone) {

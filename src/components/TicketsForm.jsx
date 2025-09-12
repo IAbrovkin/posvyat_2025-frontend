@@ -5,7 +5,9 @@ import CustomSelect from './CustomSelect';
 const TicketsForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullname: "",
+    surname: "",
+    name: "",
+    middle_name: "",
     course: "",
     university: "",
     tg: "",
@@ -16,23 +18,45 @@ const TicketsForm = () => {
 
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
-    validateField(name, type === "checkbox" ? checked : value);
+    const newValue = type === "checkbox" ? checked : value;
+    setFormData({ ...formData, [name]: newValue });
+    validateField(name, newValue);
   };
 
   const validateField = (field, value) => {
     const newErrors = { ...errors };
-    const nameRegex = /^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+(\s[А-ЯЁ][а-яё]+)?$/;
+    const nameRegex = /^[А-ЯЁ][а-яё]+$/;
     const tgRegex = /^@?[a-zA-Z0-9_]{5,}$/;
 
     switch (field) {
-      case "fullname":
-        if (!value) newErrors.fullname = "Обязательное поле";
-        else if (!nameRegex.test(value)) newErrors.fullname = "Введите ФИО полностью";
-        else delete newErrors.fullname;
+      case "surname":
+        if (!value) {
+          newErrors.surname = "Обязательное поле";
+        } else if (!nameRegex.test(value)) {
+          newErrors.surname = "Неверный формат";
+        } else {
+          delete newErrors.surname;
+        }
+        break;
+      case "name":
+        if (!value) {
+          newErrors.name = "Обязательное поле";
+        } else if (!nameRegex.test(value)) {
+          newErrors.name = "Неверный формат";
+        } else {
+          delete newErrors.name;
+        }
+        break;
+      case "middle_name":
+        if (value && !nameRegex.test(value)) {
+          newErrors.middle_name = "Неверный формат";
+        } else {
+          delete newErrors.middle_name;
+        }
         break;
       case "tg":
         if (!value) newErrors.tg = "Обязательное поле";
@@ -59,29 +83,49 @@ const TicketsForm = () => {
         break;
     }
     setErrors(newErrors);
-    setIsFormValid(Object.keys(newErrors).length === 0);
+    const requiredFields = ['surname', 'name', 'course', 'university', 'tg', 'payment', 'agreeTerms'];
+    const hasRequiredErrors = Object.keys(newErrors).some(key => requiredFields.includes(key));
+    const allRequiredFilled = requiredFields.every(field => formData[field] || (field === 'agreeTerms' && formData.agreeTerms === true));
+
+    setIsFormValid(!hasRequiredErrors && allRequiredFilled);
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError(""); 
     if (isFormValid) {
       console.log("Форма отправлена:", formData);
       try {
         const response = await fetch("/api/supabase/create_record/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            ...formData,
+            middle_name: formData.middle_name || null,
+            course: Number(formData.course),
+          }),
         });
-        const data = await response.json();
+        
         if (response.ok) {
+          const data = await response.json();
           console.log("Response:", data);
-          navigate("/success");
+          navigate("/transfer");
         } else {
-          console.error("Ошибка:", data);
+          if (response.status === 403) {
+            setSubmitError("К сожалению, вы в черном списке.");
+          } else {
+            const data = await response.json();
+            console.error("Ошибка:", data);
+            setSubmitError("Произошла ошибка при отправке формы.");
+          }
         }
       } catch (error) {
         console.error("Ошибка сети:", error);
+        setSubmitError("Ошибка сети. Пожалуйста, проверьте ваше подключение.");
       }
+    } else {
+        console.log("Форма невалидна");
     }
   };
 
@@ -92,17 +136,42 @@ const TicketsForm = () => {
         <form onSubmit={handleSubmit} className="registration-form">
           <div className="form-grid">
             <div>
-              <label>ФИО</label>
+              <label>Фамилия</label>
               <input
                 type="text"
-                name="fullname"
-                value={formData.fullname}
+                name="surname"
+                value={formData.surname}
                 onChange={handleChange}
-                placeholder="Иванов Иван Иванович"
+                placeholder="Иванов"
                 required
-                style={{ borderColor: errors.fullname ? "#FF673D" : (formData.fullname ? "white" : "gray") }}
+                style={{ borderColor: errors.surname ? "#FF673D" : (formData.surname ? "white" : "gray") }}
               />
-              {errors.fullname && <span className="error-message">{errors.fullname}</span>}
+              {errors.surname && <span className="error-message">{errors.surname}</span>}
+            </div>
+            <div>
+              <label>Имя</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Иван"
+                required
+                style={{ borderColor: errors.name ? "#FF673D" : (formData.name ? "white" : "gray") }}
+              />
+              {errors.name && <span className="error-message">{errors.name}</span>}
+            </div>
+            <div>
+              <label>Отчество</label>
+              <input
+                type="text"
+                name="middle_name"
+                value={formData.middle_name}
+                onChange={handleChange}
+                placeholder="Иванович"
+                style={{ borderColor: errors.middle_name ? "#FF673D" : (formData.middle_name ? "white" : "gray") }}
+              />
+              {errors.middle_name && <span className="error-message">{errors.middle_name}</span>}
             </div>
             <div>
               <label>Курс</label>
@@ -168,6 +237,7 @@ const TicketsForm = () => {
                   name="agreeTerms"
                   checked={formData.agreeTerms}
                   onChange={handleChange}
+                  required
                 />
                 Ознакомлен с условиями покупки билетов
               </label>
@@ -186,12 +256,15 @@ const TicketsForm = () => {
             </div>
           </div>
           <div className="submit-wrapper">
-            <button 
+            {submitError && <span className="error-message" style={{ display: 'block', marginBottom: '10px' }}>{submitError}</span>}
+            <button
               type="submit"
               className="btnn"
-              style={{ 
+              disabled={!isFormValid}
+              style={{
                 backgroundColor: isFormValid ? '#E7E2FF' : 'transparent',
-                color: isFormValid ? 'black' : 'white'
+                color: isFormValid ? 'black' : 'white',
+                cursor: isFormValid ? 'pointer' : 'not-allowed'
               }}
             >
               Отправить
