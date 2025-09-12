@@ -67,7 +67,7 @@ const TicketsForm = () => {
     if (isFormValid) {
       console.log("Форма отправлена:", formData);
       try {
-        const response = await fetch("api/v1/tickets", {
+        const response = await fetch("/api/supabase/create_record/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),

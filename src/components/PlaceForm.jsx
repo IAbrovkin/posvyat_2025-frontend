@@ -147,7 +147,7 @@ const PlaceForm = () => {
     e.preventDefault();
     if (isFormValid) {
       try {
-        const response = await fetch('api/v1/resettlement', {
+        const response = await fetch('/api/supabase/create_record/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

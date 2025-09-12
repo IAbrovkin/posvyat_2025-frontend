@@ -142,7 +142,7 @@ const TransferForm = () => {
       console.log('Форма отправлена:', formData);
 
       try {
-        const response = await fetch('api/v1/transfer', {
+        const response = await fetch('/api/supabase/create_record/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
