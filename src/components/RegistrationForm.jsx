@@ -7,16 +7,16 @@ const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    middle_name: "",
+    parname: "",
     email: "",
-    vk: "",
-    tg: "",
-    phone: "",
-    bday: "",
-    sex: "Мужской",
+    vk_link: "",
+    tg_link: "",
+    phone_number: "",
+    birthday_date: "",
+    gender: "Мужской",
     university: "",
     faculty: "",
-    program: "",
+    education_program: "",
     group: "",
     transfer: "Да, от Одинцово и обратно",
     course: 1,
@@ -29,8 +29,8 @@ const RegistrationForm = () => {
 
   const validateForm = (currentErrors, currentFormData) => {
     const requiredFields = [
-      'name', 'surname', 'email', 'vk', 'tg', 'phone', 
-      'bday', 'university', 'faculty', 'program', 'group'
+      'name', 'surname', 'email', 'vk_link', 'tg_link', 'phone_number', 
+      'birthday_date', 'university', 'faculty', 'education_program', 'group'
     ];
     
     const hasErrors = Object.keys(currentErrors).some(key => {
@@ -53,9 +53,9 @@ const RegistrationForm = () => {
     const newErrors = { ...errors };
     const nameRegex = /^[А-ЯЁ][а-яё]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-    const vkRegex = /^https?:\/\/(www\.)?vk\.com\/[a-zA-Z0-9._-]+$/; 
-    const tgRegex = /^@?[a-zA-Z0-9_]{5,}$/; 
-    const phoneRegex = /^(?:\+7|8)\d{10}$|^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
+    const vk_linkRegex = /^https?:\/\/(www\.)?vk_link\.com\/[a-zA-Z0-9._-]+$/; 
+    const tg_linkRegex = /^@?[a-zA-Z0-9_]{5,}$/; 
+    const phone_numberRegex = /^(?:\+7|8)\d{10}$|^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
 
     switch (field) {
       case 'surname':
@@ -68,30 +68,30 @@ const RegistrationForm = () => {
         else if (!nameRegex.test(value)) newErrors.name = "Неверный формат";
         else delete newErrors.name;
         break;
-      case 'middle_name':
-        if (value && !nameRegex.test(value)) newErrors.middle_name = "Неверный формат";
-        else delete newErrors.middle_name;
+      case 'parname':
+        if (value && !nameRegex.test(value)) newErrors.parname = "Неверный формат";
+        else delete newErrors.parname;
         break;
       case 'email':
         if (!value) newErrors.email = "Обязательное поле";
         else if (!emailRegex.test(value)) newErrors.email = "Неверный формат";
         else delete newErrors.email;
         break;
-      case 'vk':
+      case 'vk_link':
         if (!value) newErrors.vk = "Обязательное поле";
-        else if (!vkRegex.test(value)) newErrors.vk = "Неверный формат";
+        else if (!vk_linkRegex.test(value)) newErrors.vk = "Неверный формат";
         else delete newErrors.vk;
         break;
-      case 'tg':
+      case 'tg_link':
         if (!value) newErrors.tg = "Обязательное поле";
-        else if (!tgRegex.test(value)) newErrors.tg = "Неверный формат";
+        else if (!tg_linkRegex.test(value)) newErrors.tg = "Неверный формат";
         else delete newErrors.tg;
         break;
-      case 'phone':
-        if (!value) newErrors.phone = "Обязательное поле";
-        else if (!phoneRegex.test(value)) newErrors.phone = "Неверный формат";
-        else delete newErrors.phone;
-        if (newErrors.phoneExists) delete newErrors.phoneExists;
+      case 'phone_number':
+        if (!value) newErrors.phone_number = "Обязательное поле";
+        else if (!phone_numberRegex.test(value)) newErrors.phone_number = "Неверный формат";
+        else delete newErrors.phone_number;
+        if (newErrors.phone_numberExists) delete newErrors.phone_numberExists;
         break;
       case 'university':
         if (!value) newErrors.university = "Обязательное поле";
@@ -101,9 +101,9 @@ const RegistrationForm = () => {
         if (!value) newErrors.faculty = "Обязательное поле";
         else delete newErrors.faculty;
         break;
-      case 'program':
-        if (!value) newErrors.program = "Обязательное поле";
-        else delete newErrors.program;
+      case 'education_program':
+        if (!value) newErrors.education_program = "Обязательное поле";
+        else delete newErrors.education_program;
         break;
       case 'group':
         if (!value) newErrors.group = "Обязательное поле";
@@ -122,12 +122,13 @@ const RegistrationForm = () => {
 
     if (isFormValid) {
       try {
-        const response = await fetch('/api/supabase/create_record/', {
+        //const response = await fetch('/api/supabase/create_record/', {
+        const response = await fetch('http://localhost:8000/api/supabase/create_record/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ...formData,
-            middle_name: formData.middle_name || null,
+            parname: formData.parname || null,
             course: Number(formData.course),
           }),
         });
@@ -142,8 +143,8 @@ const RegistrationForm = () => {
           } else {
             const data = await response.json();
             console.error('Ошибка:', data);
-            if (data.phone) {
-              setErrors({ ...errors, phone: 'Пользователь с таким телефоном уже зарегистрирован' });
+            if (data.phone_number) {
+              setErrors({ ...errors, phone_number: 'Пользователь с таким телефоном уже зарегистрирован' });
             } else {
               setSubmitError("Произошла ошибка при отправке формы.");
             }
@@ -192,13 +193,13 @@ const RegistrationForm = () => {
               <label>Отчество (при наличии)</label>
               <input
                 type="text"
-                name="middle_name"
-                value={formData.middle_name}
+                name="parname"
+                value={formData.parname}
                 onChange={handleChange}
                 placeholder="Иванович"
-                style={{ borderColor: errors.middle_name ? '#FF673D' : (formData.middle_name ? 'white' : 'gray') }}
+                style={{ borderColor: errors.parname ? '#FF673D' : (formData.parname ? 'white' : 'gray') }}
               />
-              {errors.middle_name && <span className="error-message">{errors.middle_name}</span>}
+              {errors.parname && <span className="error-message">{errors.parname}</span>}
             </div>
             <div>
               <label>Почта</label>
@@ -214,60 +215,60 @@ const RegistrationForm = () => {
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
             <div>
-              <label>Ссылка на VK</label>
+              <label>Ссылка на vk_link</label>
               <input
                 type="text"
-                name="vk"
-                value={formData.vk}
+                name="vk_link"
+                value={formData.vk_link}
                 onChange={handleChange}
-                placeholder={window.innerWidth <= 768 ? "https://vk.com/ivan" : "https://vk.com/ivanov_vk"}
+                placeholder={window.innerWidth <= 768 ? "https://vk_link.com/ivan" : "https://vk_link.com/ivanov_vk_link"}
                 required
-                style={{ borderColor: errors.vk ? '#FF673D' : (formData.vk ? 'white' : 'gray') }}
+                style={{ borderColor: errors.vk_link ? '#FF673D' : (formData.vk_link ? 'white' : 'gray') }}
               />
-              {errors.vk && <span className="error-message">{errors.vk}</span>}
+              {errors.vk_link && <span className="error-message">{errors.vk_link}</span>}
             </div>
             <div>
               <label>Ник в Telegram</label>
               <input
                 type="text"
-                name="tg"
-                value={formData.tg}
+                name="tg_link"
+                value={formData.tg_link}
                 onChange={handleChange}
                 placeholder="@student"
                 required
-                style={{ borderColor: errors.tg ? '#FF673D' : (formData.tg ? 'white' : 'gray') }}
+                style={{ borderColor: errors.tg_link ? '#FF673D' : (formData.tg_link ? 'white' : 'gray') }}
               />
-              {errors.tg && <span className="error-message">{errors.tg}</span>}
+              {errors.tg_link && <span className="error-message">{errors.tg_link}</span>}
             </div>
             <div>
               <label>Телефон</label>
               <input
                 type="tel"
-                name="phone"
-                value={formData.phone}
+                name="phone_number"
+                value={formData.phone_number}
                 onChange={handleChange}
                 placeholder="+7(900)777-14-88"
                 required
-                style={{ borderColor: errors.phone ? '#FF673D' : (formData.phone ? 'white' : 'gray') }}
+                style={{ borderColor: errors.phone_number ? '#FF673D' : (formData.phone_number ? 'white' : 'gray') }}
               />
-              {errors.phone && <span className="error-message">{errors.phone}</span>}
+              {errors.phone_number && <span className="error-message">{errors.phone_number}</span>}
             </div>
             <div>
               <label>Дата рождения</label>
               <input
                 type="date"
-                name="bday"
-                value={formData.bday}
+                name="birthday_date"
+                value={formData.birthday_date}
                 onChange={handleChange}
                 required
-                style={{ borderColor: errors.bday ? '#FF673D' : 'gray' }}
+                style={{ borderColor: errors.birthday_date ? '#FF673D' : 'gray' }}
               />
             </div>
             <div>
               <label>Пол</label>
               <CustomSelect
-                name="sex"
-                value={formData.sex}
+                name="gender"
+                value={formData.gender}
                 onChange={handleChange}
                 options={[
                   { value: "Мужской", label: 'Мужской' },
@@ -305,14 +306,14 @@ const RegistrationForm = () => {
               <label>Программа</label>
               <input
                 type="text"
-                name="program"
-                value={formData.program}
+                name="education_program"
+                value={formData.education_program}
                 onChange={handleChange}
                 placeholder="ИВТ"
                 required
-                style={{ borderColor: errors.program ? '#FF673D' : (formData.program ? 'white' : 'gray') }}
+                style={{ borderColor: errors.education_program ? '#FF673D' : (formData.education_program ? 'white' : 'gray') }}
               />
-              {errors.program && <span className="error-message">{errors.program}</span>}
+              {errors.education_program && <span className="error-message">{errors.education_program}</span>}
             </div>
             <div>
               <label>Курс</label>

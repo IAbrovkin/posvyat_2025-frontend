@@ -7,11 +7,11 @@ const TicketsForm = () => {
   const [formData, setFormData] = useState({
     surname: "",
     name: "",
-    middle_name: "",
+    parname: "",
     course: "",
     university: "",
-    tg: "",
-    payment: "",
+    tg_link: "",
+    payment_method: "",
     agreeTerms: false,
     subscribed: false,
   });
@@ -30,7 +30,7 @@ const TicketsForm = () => {
   const validateField = (field, value) => {
     const newErrors = { ...errors };
     const nameRegex = /^[А-ЯЁ][а-яё]+$/;
-    const tgRegex = /^@?[a-zA-Z0-9_]{5,}$/;
+    const tg_linkRegex = /^@?[a-zA-Z0-9_]{5,}$/;
 
     switch (field) {
       case "surname":
@@ -51,16 +51,16 @@ const TicketsForm = () => {
           delete newErrors.name;
         }
         break;
-      case "middle_name":
+      case "parname":
         if (value && !nameRegex.test(value)) {
-          newErrors.middle_name = "Неверный формат";
+          newErrors.parname = "Неверный формат";
         } else {
-          delete newErrors.middle_name;
+          delete newErrors.parname;
         }
         break;
-      case "tg":
+      case "tg_link":
         if (!value) newErrors.tg = "Обязательное поле";
-        else if (!tgRegex.test(value)) newErrors.tg = "Некорректный формат";
+        else if (!tg_linkRegex.test(value)) newErrors.tg = "Некорректный формат";
         else delete newErrors.tg;
         break;
       case "university":
@@ -71,9 +71,9 @@ const TicketsForm = () => {
         if (!value) newErrors.course = "Выберите курс";
         else delete newErrors.course;
         break;
-      case "payment":
-        if (!value) newErrors.payment = "Выберите способ оплаты";
-        else delete newErrors.payment;
+      case "payment_method":
+        if (!value) newErrors.payment_method = "Выберите способ оплаты";
+        else delete newErrors.payment_method;
         break;
       case "agreeTerms":
         if (!value) newErrors.agreeTerms = "Нужно согласие с условиями";
@@ -83,7 +83,7 @@ const TicketsForm = () => {
         break;
     }
     setErrors(newErrors);
-    const requiredFields = ['surname', 'name', 'course', 'university', 'tg', 'payment', 'agreeTerms'];
+    const requiredFields = ['surname', 'name', 'course', 'university', 'tg_link', 'payment_method', 'agreeTerms'];
     const hasRequiredErrors = Object.keys(newErrors).some(key => requiredFields.includes(key));
     const allRequiredFilled = requiredFields.every(field => formData[field] || (field === 'agreeTerms' && formData.agreeTerms === true));
 
@@ -97,12 +97,13 @@ const TicketsForm = () => {
     if (isFormValid) {
       console.log("Форма отправлена:", formData);
       try {
-        const response = await fetch("/api/supabase/create_record/", {
+        //const response = await fetch("/api/supabase/create_record/", {
+        const response = await fetch("http://localhost:8000/api/supabase/activate-first-wave/",{
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...formData,
-            middle_name: formData.middle_name || null,
+            parname: formData.parname || null,
             course: Number(formData.course),
           }),
         });
@@ -165,13 +166,13 @@ const TicketsForm = () => {
               <label>Отчество</label>
               <input
                 type="text"
-                name="middle_name"
-                value={formData.middle_name}
+                name="parname"
+                value={formData.parname}
                 onChange={handleChange}
                 placeholder="Иванович"
-                style={{ borderColor: errors.middle_name ? "#FF673D" : (formData.middle_name ? "white" : "gray") }}
+                style={{ borderColor: errors.parname ? "#FF673D" : (formData.parname ? "white" : "gray") }}
               />
-              {errors.middle_name && <span className="error-message">{errors.middle_name}</span>}
+              {errors.parname && <span className="error-message">{errors.parname}</span>}
             </div>
             <div>
               <label>Курс</label>
@@ -208,27 +209,27 @@ const TicketsForm = () => {
               <label>Ник в Telegram</label>
               <input
                 type="text"
-                name="tg"
-                value={formData.tg}
+                name="tg_link"
+                value={formData.tg_link}
                 onChange={handleChange}
                 placeholder="@nickname"
                 required
-                style={{ borderColor: errors.tg ? "#FF673D" : (formData.tg ? "white" : "gray") }}
+                style={{ borderColor: errors.tg_link ? "#FF673D" : (formData.tg_link ? "white" : "gray") }}
               />
-              {errors.tg && <span className="error-message">{errors.tg}</span>}
+              {errors.tg_link && <span className="error-message">{errors.tg_link}</span>}
             </div>
             <div>
               <label>Способ оплаты</label>
               <CustomSelect
-                name="payment"
-                value={formData.payment}
+                name="payment_method"
+                value={formData.payment_method}
                 onChange={handleChange}
                 options={[
                   { value: "card", label: "Переводом" },
                   { value: "sbp", label: "Очно в вузе наличными" },
                 ]}
               />
-              {errors.payment && <span className="error-message">{errors.payment}</span>}
+              {errors.payment_method && <span className="error-message">{errors.payment_method}</span>}
             </div>
             <div className="checkbox">
               <label>
