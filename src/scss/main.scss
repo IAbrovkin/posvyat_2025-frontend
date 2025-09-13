@@ -33,88 +33,68 @@ body {
   padding: 0;
   display: block;  
   height: auto; 
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10vh;
+  overflow-x: hidden;
 }
-.main-background {
+
+.main-background,
+.registration-background,
+.place-background,
+.transfer-background,
+.tickets-background {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  width: 1500px;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto; 
+  min-height: 100vh;
+}
+
+.main-background {
   background: linear-gradient(
     to bottom, 
     #E82168, #FFE203, #0043E9, #111621
   );
   z-index: 0;
-  margin: 0 auto; 
 }
 
 .registration-background {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 1500px;
   background: linear-gradient(
     to bottom, 
     #764D68,#00111E
   );
   z-index: 1;
-  margin: 0 auto; 
 } 
 .place-background {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 1500px;
   background: linear-gradient(
     to bottom, 
     #F85D8B, #8800FF
   );
   z-index: 0;
-  margin: 0 auto;
 }
 .transfer-background {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 1500px;
   background: linear-gradient(
     to bottom, 
     #BA4E3B, #6C1B30
   );
   z-index: 0;
-  margin: 0 auto;
 }
 
 .tickets-background {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 1500px;
   background: linear-gradient(
     to bottom, 
     #007046, #00392A
   );
   z-index: 0;
-  margin: 0 auto;
 }
+
 .main {
   flex: 1; 
   position: relative;
   z-index: 1; 
-
+  width: 100%;
 }
 
 

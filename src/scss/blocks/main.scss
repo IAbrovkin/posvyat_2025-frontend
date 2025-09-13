@@ -1,4 +1,3 @@
-
 /* ==================== Кнопки ==================== */
 .btnn {
   margin-top: 5%;
@@ -43,21 +42,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 5%;
 
   .title {
     padding: 2%;
     font-size: clamp(28px, 6vw, 82px);
     font-family: Paper_Cuts_2, sans-serif;
     color: #fff;
-    -webkit-text-stroke: 0.3rem black;
-    
+    -webkit-text-stroke: 0.2rem black;
   }
 
   .PosvyatImage {
     width: 100%;
     max-width: 1500px;
     height: auto;
-    margin: -3%;
+    margin: -5% 0;
   }
 }
 
@@ -68,6 +67,7 @@
   width: 100%;
   position: relative;
   height: fit-content;
+  padding: 0 2%;
 
   .infoTitle {
     font-size: clamp(20px, 5vw, 70px);
@@ -91,7 +91,7 @@
 
   .imgcontainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2vw;
     justify-items: center;
     align-items: center;
@@ -104,30 +104,30 @@
     }
   }
 }
+
+/* ==================== Popup ==================== */
 .popup-stack-container {
   display: grid;
   place-items: center;
   min-height: 500px; 
+  width: 100%;
+  padding: 5% 2%;
 }
 
-/* Base styles shared by the real popup and the fake ones in the back */
 .popup, .popup-stack-item {
-  width: clamp(520px, 70vw, 1000px);
-  /* This makes all items in the grid occupy the same space */
+  width: clamp(300px, 90vw, 1000px);
   grid-column: 1 / -1;
   grid-row: 1 / -1;
 }
 
-/* The decorative items for the stack effect */
 .popup-stack-item {
-  background-image: url('../../assets/images/WEB BROWSER POPUP.svg'); /* Adjust path if needed */
+  background-image: url('../../assets/images/WEB BROWSER POPUP.svg');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100%;
+  aspect-ratio: 1000 / 585; // Maintain aspect ratio of the image
 }
 
-/* The main, interactive popup */
 .popup {
   position: relative;
   font-family: "Phorssa", sans-serif;
@@ -141,11 +141,11 @@
 
 .popup-content {
   position: absolute;
-  top: 20%; 
+  top: 15%; 
   left: 5%;
   width: 90%;
   height: 75%; 
-  display: flex;
+    display: flex;
   flex-direction: row;
   gap: 20px;
   align-items: center; 
@@ -184,8 +184,8 @@
 
 .close-btn {
   position: absolute;
-  top: -22%;
-  left: 101%;
+  top: 5.5%;
+  right: 2.5%;
   width: 25px;
   height: 24px;
   cursor: pointer;
@@ -214,18 +214,16 @@
   width: 100%;
   padding: 24px 0;
   background: transparent;
-  overflow: hidden; /* скрываем ползунок */
-
+  overflow: hidden;
 
   .logos-inner {
     display: flex;
     gap: 20px;
     align-items: center;
     padding: 0 16px;
-    will-change: transform; /* для плавности */
+    will-change: transform;
     transition: transform 0.1s linear;
   }
-
 
   .brand-img {
     height: clamp(30px, 6vh, 70px);
@@ -238,10 +236,11 @@
 .theme-info-section {
   text-align: center;
   margin-top: 5%;
+  padding: 0 2%;
 }
 
 .theme-title, .theme-footer-title {
-  font-family: 'Phorssa', sans-serif; /* Assuming this font is available */
+  font-family: 'Phorssa', sans-serif;
   font-size: clamp(42px, 6vw, 90px);
   color: #fff;
   margin-bottom: 3rem;
@@ -251,7 +250,7 @@
   display: flex;
   justify-content: center;
   gap: 2rem;
-  flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+  flex-wrap: wrap; 
   margin-bottom: 4rem;
 }
 
@@ -278,60 +277,64 @@
 }
 
 .theme-card-text {
-  font-family: 'Monocraft', sans-serif; /* Using the same font as other UI elements */
+  font-family: 'Monocraft', sans-serif;
   font-size: clamp(14px, 1.5vw, 16px);
   color: #fff;
   line-height: 1.5;
   padding: 0 1rem;
 }
 
-
-/* ==================== Camera + Discs ==================== */
+/* ==================== Camera Slider ==================== */
 .camera-block {
   display: flex;
   justify-content: center;
   padding: 40px 0 10vh;
+  width: 100%;
 
   .camera-frame {
     position: relative;
+    width: clamp(320px, 90vw, 1000px);
 
     .camera-frame-img {
-      width: 1000px;
+      width: 100%;
       height: auto;
     }
 
     .camera-photo-wrapper {
       position: absolute;
-      bottom: 10%;
-      right: 25%;
+      top: 13%;
+      left: 3%;
       width: 70%;
+      height: 60%;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
 
       .camera-photo {
-        width: 90%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        transition: transform 0.25s;
+        transition: opacity 0.3s ease-in-out;
       }
     }
 
     .camera-arrow {
       position: absolute;
-      top: 73%;
+      top: 80%;
       transform: translateY(-50%);
       border: none;
       background: transparent;
       color: #5B4551;
-      font-size: clamp(16px, 2vw, 32px);
+      font-size: clamp(24px, 3vw, 48px);
       cursor: pointer;
+      z-index: 10;
 
       &.left {
         left: 77%;
       }
       &.right {
-        right: 1%;
+        right: 5%;
       }
       &:hover {
         color: #fff;
@@ -341,7 +344,6 @@
 }
 
 /* ==================== Date & Location Section ==================== */
-/* ==================== Date & Location Section ==================== */
 .date-location-section {
   position: relative;
   display: flex;
@@ -349,6 +351,7 @@
   align-items: center;
   width: 100%;
   height: 1000px;
+  overflow: hidden;
 }
 
 .date-location-content {
@@ -357,7 +360,7 @@
   align-items: center;
   gap: 1.5rem;
   text-align: center;
-  z-index: 0;
+  z-index: 1;
 }
 
 .date-location-text {
@@ -365,16 +368,18 @@
   font-size: clamp(32px, 5vw, 64px);
   color: #fff;
   line-height: 1.1;
+  -webkit-text-stroke: 1px black;
 }
 
-/* --- REVISED STYLES FOR CD HALVES --- */
 .cd-half {
   position: absolute;
   top: 50%;
   left: 50%; 
   height: 1000px;
   width: auto;
-  z-index: 2;
+  z-index: 0;
+  transition: transform 0.2s ease-out;
+  will-change: transform;
 }
 
 /* ==================== Ticket ==================== */
@@ -383,6 +388,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   height: fit-content;
   margin-bottom: 10rem;
 
@@ -393,8 +399,10 @@
   }
 
   .btnn {
-    margin-top: -15rem;
-    margin-right: 5rem; // кнопка поверх билета
+    position: absolute;
+    bottom: 25%;
+    right: 10%;
+    margin-top: 0;
   }
 }
 
@@ -403,13 +411,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 18px;
-  width: 90%;
+  padding: 20px 4%;
+  width: 100%;
   max-width: 1200px;
 
   .links img {
     width: 50px;
-    margin-left: 10px;
+    margin-right: 10px;
   }
 
   .up img {
@@ -418,17 +426,81 @@
   }
 }
 
-/* ==================== Media ==================== */
+/* ==================== Media Queries for Main ==================== */
+@media (max-width: 1024px) {
+  .info-ticket .btnn {
+    bottom: 22%;
+    right: 12%;
+    padding: 0.4em 1.5em;
+  }
+  .date-location-section, .cd-half {
+    height: 800px;
+  }
+}
+
 @media (max-width: 768px) {
-  .grey-rectangle {
-    padding: 10% 2%;
+  .grey-rectangle .title {
+    -webkit-text-stroke: 0.1rem black;
   }
 
-  .info .imgcontainer img {
-    max-width: 40vw;
+  .info .imgcontainer {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .popup-content {
+    flex-direction: column;
+    text-align: center;
+    top: 12%;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+  
+  .popup-image {
+    width: 60%;
+    max-height: 40%;
+  }
+
+  .popup-text-content h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .popup-text-content p {
+    margin: 0.1rem 0;
+  }
+
+  .close-btn {
+    top: 4.5%;
+    right: 4%;
+  }
+
+  .camera-block {
+    padding-bottom: 5vh;
+  }
+
+  .date-location-section, .cd-half {
+    height: 500px;
+  }
+  
+  .date-location-text {
+     -webkit-text-stroke: 0.5px black;
+  }
+
+  .info-ticket {
+    margin-bottom: 5rem;
   }
 
   .info-ticket .btnn {
-    margin-top: -2rem;
+    font-size: 14px;
+    min-width: 120px;
+    bottom: 20%;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .footer-links {
+    padding: 20px;
+    .links img, .up img {
+      width: 40px;
+    }
   }
 }
