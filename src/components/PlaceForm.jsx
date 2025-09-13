@@ -6,11 +6,11 @@ const PlaceForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    middle_name: "",
-    vk: "",
-    tg: "",
-    phone: "",
-    program: "",
+    parname: "",
+    vk_link: "",
+    tg_link: "",
+    phone_number: "",
+    education_program: "",
     group: "",
     course: 1,
     people_custom: [""]
@@ -22,7 +22,7 @@ const PlaceForm = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   const validateForm = (currentErrors, currentFormData) => {
-    const requiredFields = ['name', 'surname', 'vk', 'tg', 'phone', 'program', 'group', 'course'];
+    const requiredFields = ['name', 'surname', 'vk_link', 'tg_link', 'phone_number', 'education_program', 'group', 'course'];
     
     const hasFieldErrors = Object.keys(currentErrors).some(key => {
         return (requiredFields.includes(key) && currentErrors[key]) || key.startsWith('people_custom');
@@ -40,9 +40,9 @@ const PlaceForm = () => {
   const validateField = (field, value, currentFormData) => {
     const newErrors = { ...errors };
     const nameRegex = /^[А-ЯЁ][а-яё]+$/;
-    const vkRegex = /^https?:\/\/(www\.)?vk\.com\/[a-zA-Z0-9._-]+$/; 
-    const tgRegex = /^@?[a-zA-Z0-9_]{5,}$/; 
-    const phoneRegex = /^(?:\+7|8)\d{10}$|^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/; 
+    const vk_linkRegex = /^https?:\/\/(www\.)?vk_link\.com\/[a-zA-Z0-9._-]+$/; 
+    const tg_linkRegex = /^@?[a-zA-Z0-9_]{5,}$/; 
+    const phone_numberRegex = /^(?:\+7|8)\d{10}$|^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/; 
 
     switch (field) {
       case 'name':
@@ -55,28 +55,28 @@ const PlaceForm = () => {
         else if (!nameRegex.test(value)) newErrors.surname = "Неверный формат";
         else delete newErrors.surname;
         break;
-      case 'middle_name':
-        if (value && !nameRegex.test(value)) newErrors.middle_name = "Неверный формат";
-        else delete newErrors.middle_name;
+      case 'parname':
+        if (value && !nameRegex.test(value)) newErrors.parname = "Неверный формат";
+        else delete newErrors.parname;
         break;
-      case 'vk':
-        if (!value) newErrors.vk = "Обязательное поле";
-        else if (!vkRegex.test(value)) newErrors.vk = "Неверный формат";
-        else delete newErrors.vk;
+      case 'vk_link':
+        if (!value) newErrors.vk_link = "Обязательное поле";
+        else if (!vk_linkRegex.test(value)) newErrors.vk_link = "Неверный формат";
+        else delete newErrors.vk_link;
         break;
-      case 'tg':
-        if (!value) newErrors.tg = "Обязательное поле";
-        else if (!tgRegex.test(value)) newErrors.tg = "Неверный формат";
-        else delete newErrors.tg;
+      case 'tg_link':
+        if (!value) newErrors.tg_link = "Обязательное поле";
+        else if (!tg_linkRegex.test(value)) newErrors.tg_link = "Неверный формат";
+        else delete newErrors.tg_link;
         break;
-      case 'phone':
-        if (!value) newErrors.phone = "Обязательное поле";
-        else if (!phoneRegex.test(value)) newErrors.phone = "Неверный формат";
-        else delete newErrors.phone;
+      case 'phone_number':
+        if (!value) newErrors.phone_number = "Обязательное поле";
+        else if (!phone_numberRegex.test(value)) newErrors.phone_number = "Неверный формат";
+        else delete newErrors.phone_number;
         break;
-      case 'program':
-        if (!value) newErrors.program = "Обязательное поле";
-        else delete newErrors.program;
+      case 'education_program':
+        if (!value) newErrors.education_program = "Обязательное поле";
+        else delete newErrors.education_program;
         break;
       case 'group':
         if (!value) newErrors.group = "Обязательное поле";
@@ -149,7 +149,7 @@ const PlaceForm = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ...formData,
-            middle_name: formData.middle_name || null,
+            parname: formData.parname || null,
             course: parseInt(formData.course),
             people_custom: formData.people_custom.filter(p => p.trim() !== "")
           }),
@@ -165,10 +165,10 @@ const PlaceForm = () => {
           } else {
             const data = await response.json();
             console.error('Ошибка:', data);
-            if (data.phone) {
-              setErrors({ ...errors, phone: 'Пользователь с таким номером уже зарегистрирован' });
+            if (data.phone_number) {
+              setErrors({ ...errors, phone_number: 'Пользователь с таким номером уже зарегистрирован' });
             } else if (data.error) {
-              setErrors({ ...errors, phone: 'Пользователь с таким номером не зарегистрирован' });
+              setErrors({ ...errors, phone_number: 'Пользователь с таким номером не зарегистрирован' });
             } else {
               setSubmitError("Произошла ошибка при отправке формы.");
             }
@@ -217,39 +217,39 @@ const PlaceForm = () => {
               <label>Отчество (при наличии)</label>
               <input
                 type="text"
-                name="middle_name"
-                value={formData.middle_name}
+                name="parname"
+                value={formData.parname}
                 onChange={handleChange}
                 placeholder="Иванович"
-                style={{ borderColor: errors.middle_name ? '#FF673D' : (formData.middle_name ? 'white' : 'gray') }}
+                style={{ borderColor: errors.parname ? '#FF673D' : (formData.parname ? 'white' : 'gray') }}
               />
-              {errors.middle_name && <span className="error-message">{errors.middle_name}</span>}
+              {errors.parname && <span className="error-message">{errors.parname}</span>}
             </div>
             <div>
-              <label>Ссылка на VK</label>
+              <label>Ссылка на vk_link</label>
               <input
                 type="text"
-                name="vk"
-                value={formData.vk}
+                name="vk_link"
+                value={formData.vk_link}
                 onChange={handleChange}
-                placeholder={window.innerWidth <= 768 ? "https://vk.com/ivan" : "https://vk.com/ivanov_vk"}
+                placeholder={window.innerWidth <= 768 ? "https://vk_link.com/ivan" : "https://vk_link.com/ivanov_vk_link"}
                 required
-                style={{ borderColor: errors.vk ? '#FF673D' : (formData.vk ? 'white' : 'gray') }}
+                style={{ borderColor: errors.vk_link ? '#FF673D' : (formData.vk_link ? 'white' : 'gray') }}
               />
-              {errors.vk && <span className="error-message">{errors.vk}</span>}
+              {errors.vk_link && <span className="error-message">{errors.vk_link}</span>}
             </div>
             <div>
               <label>Ник в Telegram</label>
               <input
                 type="text"
-                name="tg"
-                value={formData.tg}
+                name="tg_link"
+                value={formData.tg_link}
                 onChange={handleChange}
-                placeholder="@ivanov_tg"
+                placeholder="@ivanov_tg_link"
                 required
-                style={{ borderColor: errors.tg ? '#FF673D' : (formData.tg ? 'white' : 'gray') }}
+                style={{ borderColor: errors.tg_link ? '#FF673D' : (formData.tg_link ? 'white' : 'gray') }}
               />
-              {errors.tg && <span className="error-message">{errors.tg}</span>}
+              {errors.tg_link && <span className="error-message">{errors.tg_link}</span>}
             </div>
             <div className='form-grid-item'>
               <div className='form-grid-item-1'>
@@ -288,27 +288,27 @@ const PlaceForm = () => {
               <label>Телефон</label>
               <input
                 type="tel"
-                name="phone"
-                value={formData.phone}
+                name="phone_number"
+                value={formData.phone_number}
                 onChange={handleChange}
                 placeholder="+7(900)777-14-88"
                 required
-                style={{ borderColor: errors.phone ? '#FF673D' : (formData.phone ? 'white' : 'gray') }}
+                style={{ borderColor: errors.phone_number ? '#FF673D' : (formData.phone_number ? 'white' : 'gray') }}
               />
-              {errors.phone && <span className="error-message">{errors.phone}</span>}
+              {errors.phone_number && <span className="error-message">{errors.phone_number}</span>}
             </div>
             <div>
               <label>Образовательная программа</label>
               <input
                 type="text"
-                name="program"
-                value={formData.program}
+                name="education_program"
+                value={formData.education_program}
                 onChange={handleChange}
                 placeholder={window.innerWidth <= 768 ? "ИВТ" : "Информатика и вычислительная техника"}
                 required
-                style={{ borderColor: errors.program ? '#FF673D' : (formData.program ? 'white' : 'gray') }}
+                style={{ borderColor: errors.education_program ? '#FF673D' : (formData.education_program ? 'white' : 'gray') }}
               />
-              {errors.program && <span className="error-message">{errors.program}</span>}
+              {errors.education_program && <span className="error-message">{errors.education_program}</span>}
             </div>
             <div>
               <label>С кем хочешь жить?</label>

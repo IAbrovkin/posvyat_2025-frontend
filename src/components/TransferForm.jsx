@@ -6,11 +6,11 @@ const TransferForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    middle_name: "",
+    parname: "",
     email: "",
-    vk: "",
-    tg: "",
-    phone: "",
+    vk_link: "",
+    tg_link: "",
+    phone_number: "",
     from: "Одинцово",
     departure_time: "",  
   });
@@ -58,7 +58,7 @@ const TransferForm = () => {
   }, []);
 
   const validateForm = (currentErrors, currentFormData) => {
-    const requiredFields = ['name', 'surname', 'email', 'vk', 'tg', 'phone', 'from', 'departure_time'];
+    const requiredFields = ['name', 'surname', 'email', 'vk_link', 'tg_link', 'phone_number', 'from', 'departure_time'];
     
     const hasErrors = Object.keys(currentErrors).some(key => {
         return requiredFields.includes(key) && currentErrors[key];
@@ -85,9 +85,9 @@ const TransferForm = () => {
     const newErrors = { ...errors };
     const nameRegex = /^[А-ЯЁ][а-яё]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-    const vkRegex = /^https?:\/\/(www\.)?vk\.com\/[a-zA-Z0-9._-]+$/; 
-    const tgRegex = /^@?[a-zA-Z0-9_]{5,}$/; 
-    const phoneRegex = /^(?:\+7|8)\d{10}$|^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
+    const vk_linkRegex = /^https?:\/\/(www\.)?vk_link\.com\/[a-zA-Z0-9._-]+$/; 
+    const tg_linkRegex = /^@?[a-zA-Z0-9_]{5,}$/; 
+    const phone_numberRegex = /^(?:\+7|8)\d{10}$|^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
 
     switch (field) {
       case 'surname':
@@ -100,29 +100,29 @@ const TransferForm = () => {
         else if (!nameRegex.test(value)) newErrors.name = "Неверный формат";
         else delete newErrors.name;
         break;
-      case 'middle_name':
-        if (value && !nameRegex.test(value)) newErrors.middle_name = "Неверный формат";
-        else delete newErrors.middle_name;
+      case 'parname':
+        if (value && !nameRegex.test(value)) newErrors.parname = "Неверный формат";
+        else delete newErrors.parname;
         break;
       case 'email':
         if (!value) newErrors.email = "Обязательное поле";
         else if (!emailRegex.test(value)) newErrors.email = "Неверный формат";
         else delete newErrors.email;
         break;
-      case 'vk':
-        if (!value) newErrors.vk = "Обязательное поле";
-        else if (!vkRegex.test(value)) newErrors.vk = "Неверный формат";
-        else delete newErrors.vk;
+      case 'vk_link':
+        if (!value) newErrors.vk_link = "Обязательное поле";
+        else if (!vk_linkRegex.test(value)) newErrors.vk_link = "Неверный формат";
+        else delete newErrors.vk_link;
         break;
-      case 'tg':
-        if (!value) newErrors.tg = "Обязательное поле";
-        else if (!tgRegex.test(value)) newErrors.tg = "Неверный формат";
-        else delete newErrors.tg;
+      case 'tg_link':
+        if (!value) newErrors.tg_link = "Обязательное поле";
+        else if (!tg_linkRegex.test(value)) newErrors.tg_link = "Неверный формат";
+        else delete newErrors.tg_link;
         break;
-      case 'phone':
-        if (!value) newErrors.phone = "Обязательное поле";
-        else if (!phoneRegex.test(value)) newErrors.phone = "Неверный формат";
-        else delete newErrors.phone;
+      case 'phone_number':
+        if (!value) newErrors.phone_number = "Обязательное поле";
+        else if (!phone_numberRegex.test(value)) newErrors.phone_number = "Неверный формат";
+        else delete newErrors.phone_number;
         break;
       case 'from':
         if (!value) newErrors.from = "Обязательное поле";
@@ -150,7 +150,7 @@ const TransferForm = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ...formData,
-            middle_name: formData.middle_name || null,
+            parname: formData.parname || null,
             _from: formData.from, 
           }),
         });
@@ -165,10 +165,10 @@ const TransferForm = () => {
           } else {
             const data = await response.json();
             console.error('Ошибка:', data);
-            if (data.phone) {
-              setErrors({ ...errors, phone: 'Пользователь с таким телефоном уже зарегистрирован' });
+            if (data.phone_number) {
+              setErrors({ ...errors, phone_number: 'Пользователь с таким телефоном уже зарегистрирован' });
             } else if (data.error) {
-               setErrors({ ...errors, phone: 'Пользователь с таким телефоном не зарегистрирован' });
+               setErrors({ ...errors, phone_number: 'Пользователь с таким телефоном не зарегистрирован' });
             } else {
               setSubmitError("Произошла ошибка при отправке формы.");
             }
@@ -218,13 +218,13 @@ const TransferForm = () => {
               <label>Отчество (при наличии)</label>
               <input
                 type="text"
-                name="middle_name"
-                value={formData.middle_name}
+                name="parname"
+                value={formData.parname}
                 onChange={handleChange}
                 placeholder="Иванович"
-                style={{ borderColor: errors.middle_name ? '#FF673D' : (formData.middle_name ? 'white' : 'gray') }}
+                style={{ borderColor: errors.parname ? '#FF673D' : (formData.parname ? 'white' : 'gray') }}
               />
-              {errors.middle_name && <span className="error-message">{errors.middle_name}</span>}
+              {errors.parname && <span className="error-message">{errors.parname}</span>}
             </div>
             <div>
               <label>Почта</label>
@@ -240,43 +240,43 @@ const TransferForm = () => {
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
             <div>
-              <label>Ссылка на VK</label>
+              <label>Ссылка на vk_link</label>
               <input
                 type="text"
-                name="vk"
-                value={formData.vk}
+                name="vk_link"
+                value={formData.vk_link}
                 onChange={handleChange}
-                placeholder={window.innerWidth <= 768 ? "https://vk.com/ivan" : "https://vk.com/ivanov_vk"}
+                placeholder={window.innerWidth <= 768 ? "https://vk_link.com/ivan" : "https://vk_link.com/ivanov_vk_link"}
                 required
-                style={{ borderColor: errors.vk ? '#FF673D' : (formData.vk ? 'white' : 'gray') }}
+                style={{ borderColor: errors.vk_link ? '#FF673D' : (formData.vk_link ? 'white' : 'gray') }}
               />
-              {errors.vk && <span className="error-message">{errors.vk}</span>}
+              {errors.vk_link && <span className="error-message">{errors.vk_link}</span>}
             </div>
             <div>
               <label>Ник в Telegram</label>
               <input
                 type="text"
-                name="tg"
-                value={formData.tg}
+                name="tg_link"
+                value={formData.tg_link}
                 onChange={handleChange}
                 placeholder="@student"
                 required
-                style={{ borderColor: errors.tg ? '#FF673D' : (formData.tg ? 'white' : 'gray') }}
+                style={{ borderColor: errors.tg_link ? '#FF673D' : (formData.tg_link ? 'white' : 'gray') }}
               />
-              {errors.tg && <span className="error-message">{errors.tg}</span>}
+              {errors.tg_link && <span className="error-message">{errors.tg_link}</span>}
             </div>
             <div>
               <label>Телефон</label>
               <input
                 type="tel"
-                name="phone"
-                value={formData.phone}
+                name="phone_number"
+                value={formData.phone_number}
                 onChange={handleChange}
                 placeholder="+7(900)777-14-88"
                 required
-                style={{ borderColor: errors.phone ? '#FF673D' : (formData.phone ? 'white' : 'gray') }}
+                style={{ borderColor: errors.phone_number ? '#FF673D' : (formData.phone_number ? 'white' : 'gray') }}
               />
-              {errors.phone && <span className="error-message">{errors.phone}</span>}
+              {errors.phone_number && <span className="error-message">{errors.phone_number}</span>}
             </div>
             <div>
               <label>Откуда</label>
