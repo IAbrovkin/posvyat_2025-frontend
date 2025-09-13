@@ -256,7 +256,7 @@ const TicketsForm = () => {
             </div>
           </div>
           <div className="submit-wrapper">
-            {submitError && <span className="error-message" style={{ display: 'block', marginBottom: '10px' }}>{submitError}</span>}
+            {submitError && <span className="error" style={{ display: 'block', marginTop: '10px', position: 'absolute', fontSize: '24px' }}>{submitError}</span>}
             <button
               type="submit"
               className="btnn"

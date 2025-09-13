@@ -47,7 +47,6 @@ const TransferForm = () => {
         }
       } catch (error) {
         console.error('Ошибка при получении времени трансфера:', error);
-        // Fallback to default hardcoded times in case of network error
         setTransferTimes({
             "Одинцово": ["15:15", "15:35", "15:55"], 
             "Парк Победы": ["15:55", "17:35"]
@@ -313,7 +312,7 @@ const TransferForm = () => {
             </div>
           </div>
           <div className="submit-wrapper">
-            {submitError && <span className="error-message" style={{ display: 'block', marginBottom: '10px' }}>{submitError}</span>}
+            {submitError && <span className="error" style={{ display: 'block', marginTop: '10px', position: 'absolute', fontSize: '24px' }}>{submitError}</span>}
             <button 
               type="submit"
               className="btnn"

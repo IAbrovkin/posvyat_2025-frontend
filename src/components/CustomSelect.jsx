@@ -3,16 +3,21 @@ import React, { useState, useEffect } from 'react';
 const CustomSelect = ({ name, value, onChange, options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredOption, setHoveredOption] = useState(null);
-  const [selectedValue, setSelectedValue] = useState(value || options[0].value); 
-
-  useEffect(() => {
-    if (!value && options.length > 0) {
-      setSelectedValue(options[0].value); 
+  
+  const getSelectedLabel = () => {
+    if (options && options.length > 0) {
+      const selectedOption = options.find((option) => option.value === value);
+      if (selectedOption) {
+        return selectedOption.label;
+      }
     }
-  }, [value, options]);
+    return "Нет доступных опций";
+  };
 
   const toggleOpen = () => {
-    setIsOpen(!isOpen);
+    if (options && options.length > 0) {
+      setIsOpen(!isOpen);
+    }
   };
 
   const handleOptionMouseEnter = (optionValue) => {
@@ -25,14 +30,13 @@ const CustomSelect = ({ name, value, onChange, options }) => {
 
   const handleOptionClick = (option) => {
     onChange({ target: { name, value: option.value } });
-    setSelectedValue(option.value);
     setIsOpen(false);
   };
 
   return (
     <div className="custom-select">
       <div className="select-header" onClick={toggleOpen}>
-        {options.find((option) => option.value === selectedValue)?.label || options[0].label}
+        {getSelectedLabel()}
       </div>
       {isOpen && (
         <ul className="select-options">
