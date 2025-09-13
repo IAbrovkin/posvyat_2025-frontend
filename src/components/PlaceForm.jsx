@@ -158,7 +158,7 @@ const PlaceForm = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Response:', data);
-          navigate('/success'); 
+          navigate('/transfer'); 
         } else {
           if (response.status === 403) {
             setSubmitError("К сожалению, вы в черном списке.");

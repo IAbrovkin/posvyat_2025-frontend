@@ -158,7 +158,7 @@ const TransferForm = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Response:', data);
-          navigate('/check-in');
+          navigate('/success');
         } else {
           if (response.status === 403) {
             setSubmitError("К сожалению, вы в черном списке.");

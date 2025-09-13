@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomSelect from './CustomSelect';
 
@@ -20,48 +20,52 @@ const TicketsForm = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
+  const validateForm = () => {
+    const requiredFields = ['surname', 'name', 'course', 'university', 'tg_link', 'payment_method', 'agreeTerms'];
+    
+    const hasErrors = Object.values(errors).some(error => !!error);
+    const allFieldsFilled = requiredFields.every(field => {
+      if (typeof formData[field] === 'boolean') {
+        return formData[field] === true;
+      }
+      return !!formData[field];
+    });
+
+    setIsFormValid(allFieldsFilled && !hasErrors);
+  };
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
-    setFormData({ ...formData, [name]: newValue });
-    validateField(name, newValue);
+    const newFormData = { ...formData, [name]: newValue };
+    setFormData(newFormData);
+    validateField(name, newValue, newFormData);
   };
 
-  const validateField = (field, value) => {
+  const validateField = (field, value, currentFormData) => {
     const newErrors = { ...errors };
     const nameRegex = /^[А-ЯЁ][а-яё]+$/;
     const tg_linkRegex = /^@?[a-zA-Z0-9_]{5,}$/;
 
     switch (field) {
       case "surname":
-        if (!value) {
-          newErrors.surname = "Обязательное поле";
-        } else if (!nameRegex.test(value)) {
-          newErrors.surname = "Неверный формат";
-        } else {
-          delete newErrors.surname;
-        }
+        if (!value) newErrors.surname = "Обязательное поле";
+        else if (!nameRegex.test(value)) newErrors.surname = "Неверный формат";
+        else delete newErrors.surname;
         break;
       case "name":
-        if (!value) {
-          newErrors.name = "Обязательное поле";
-        } else if (!nameRegex.test(value)) {
-          newErrors.name = "Неверный формат";
-        } else {
-          delete newErrors.name;
-        }
+        if (!value) newErrors.name = "Обязательное поле";
+        else if (!nameRegex.test(value)) newErrors.name = "Неверный формат";
+        else delete newErrors.name;
         break;
       case "parname":
-        if (value && !nameRegex.test(value)) {
-          newErrors.parname = "Неверный формат";
-        } else {
-          delete newErrors.parname;
-        }
+        if (value && !nameRegex.test(value)) newErrors.parname = "Неверный формат";
+        else delete newErrors.parname;
         break;
       case "tg_link":
-        if (!value) newErrors.tg = "Обязательное поле";
-        else if (!tg_linkRegex.test(value)) newErrors.tg = "Некорректный формат";
-        else delete newErrors.tg;
+        if (!value) newErrors.tg_link = "Обязательное поле";
+        else if (!tg_linkRegex.test(value)) newErrors.tg_link = "Некорректный формат";
+        else delete newErrors.tg_link;
         break;
       case "university":
         if (!value) newErrors.university = "Обязательное поле";
@@ -83,50 +87,53 @@ const TicketsForm = () => {
         break;
     }
     setErrors(newErrors);
-    const requiredFields = ['surname', 'name', 'course', 'university', 'tg_link', 'payment_method', 'agreeTerms'];
-    const hasRequiredErrors = Object.keys(newErrors).some(key => requiredFields.includes(key));
-    const allRequiredFilled = requiredFields.every(field => formData[field] || (field === 'agreeTerms' && formData.agreeTerms === true));
-
-    setIsFormValid(!hasRequiredErrors && allRequiredFilled);
   };
+  
+  useEffect(() => {
+    validateForm();
+  }, [formData, errors]);
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitError(""); 
-    if (isFormValid) {
-      console.log("Форма отправлена:", formData);
-      try {
-        //const response = await fetch("/api/supabase/create_record/", {
-        const response = await fetch("http://localhost:8000/api/supabase/activate-first-wave/",{
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...formData,
-            parname: formData.parname || null,
-            course: Number(formData.course),
-          }),
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Response:", data);
-          navigate("/transfer");
+    setSubmitError("");
+
+    if (!isFormValid) {
+      console.log("Форма невалидна");
+      setSubmitError("Пожалуйста, заполните все обязательные поля корректно.");
+      return;
+    }
+    
+    console.log("Форма отправлена:", formData);
+    try {
+      const response = await fetch("http://localhost:8000/api/supabase/activate-first-wave/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          parname: formData.parname || null,
+          course: Number(formData.course),
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response:", data);
+        navigate("/check-in");
+      } else {
+        if (response.status === 400) {
+          setSubmitError("К сожалению, все билеты этой волны закончились");
+        } else if (response.status === 403) {
+          setSubmitError("К сожалению, вы в черном списке.");
         } else {
-          if (response.status === 403) {
-            setSubmitError("К сожалению, вы в черном списке.");
-          } else {
-            const data = await response.json();
-            console.error("Ошибка:", data);
-            setSubmitError("Произошла ошибка при отправке формы.");
-          }
+          const data = await response.json();
+          console.error("Ошибка:", data);
+          setSubmitError("Произошла ошибка при отправке формы.");
         }
-      } catch (error) {
-        console.error("Ошибка сети:", error);
-        setSubmitError("Ошибка сети. Пожалуйста, проверьте ваше подключение.");
       }
-    } else {
-        console.log("Форма невалидна");
+    } catch (error) {
+      console.error("Ошибка сети:", error);
+      setSubmitError("Ошибка сети. Пожалуйста, проверьте ваше подключение.");
     }
   };
 
@@ -231,33 +238,35 @@ const TicketsForm = () => {
               />
               {errors.payment_method && <span className="error-message">{errors.payment_method}</span>}
             </div>
-            <div className="checkbox">
-              <label>
+            <div className="checkbox-wrapper">
+              <label className="checkbox-label">
                 <input
                   type="checkbox"
                   name="agreeTerms"
                   checked={formData.agreeTerms}
                   onChange={handleChange}
                   required
+                  className="custom-checkbox"
                 />
-                Ознакомлен с условиями покупки билетов
+                <span>Ознакомлен с условиями покупки билетов</span>
               </label>
               {errors.agreeTerms && <span className="error-message">{errors.agreeTerms}</span>}
             </div>
-            <div className="checkbox">
-              <label>
+            <div className="checkbox-wrapper">
+              <label className="checkbox-label">
                 <input
                   type="checkbox"
                   name="subscribed"
                   checked={formData.subscribed}
                   onChange={handleChange}
+                  className="custom-checkbox"
                 />
-                Подписан на соцсети мероприятия
+                <span>Подписан на соцсети мероприятия</span>
               </label>
             </div>
           </div>
           <div className="submit-wrapper">
-            {submitError && <span className="error" style={{ display: 'block', marginTop: '10px', position: 'absolute', fontSize: '24px' }}>{submitError}</span>}
+            {submitError && <span className="error-submit">{submitError}</span>}
             <button
               type="submit"
               className="btnn"
@@ -271,7 +280,6 @@ const TicketsForm = () => {
               Отправить
             </button>
           </div>
-
         </form>
       </div>
     </div>
